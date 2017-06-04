@@ -8,4 +8,6 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN dpkg-divert --local --rename --add /sbin/initctl && rm -f /sbin/initctl && ln -s /bin/true /sbin/initctl
 ### Enable multi architecture for 32bit software(ex:i386)
 RUN dpkg --add-architecture i386
+### Speed up by changing the apt-get reference destination
+RUN sed -i.us -e 's/\/\/archive.ubuntu.com/\/\/ftp.jaist.ac.jp/g'  /etc/apt/sources.list
 
