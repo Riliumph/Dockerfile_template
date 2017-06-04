@@ -11,3 +11,5 @@ RUN dpkg --add-architecture i386
 ### Speed up by changing the apt-get reference destination
 RUN sed -i.us -e 's/\/\/archive.ubuntu.com/\/\/ftp.jaist.ac.jp/g'  /etc/apt/sources.list
 
+RUN apt-get update
+RUN apt-get install -y vim-gnome
