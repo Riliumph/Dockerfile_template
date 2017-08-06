@@ -14,10 +14,18 @@ RUN sed -i.us -e 's/\/\/archive.ubuntu.com/\/\/ftp.jaist.ac.jp/g'  /etc/apt/sour
 RUN apt-get update
 RUN apt-get install -y vim-gnome
 
-### USER追加
+### Environment value
 ENV USER tester
+ENV HOME /home/${USER}
+ENV SHELL /bin/bash
+
+### Add user
 RUN useradd -m ${USER} \
  && gpasswd -a ${USER} sudo \
  && echo "${USER}:${USER}" | chpasswd \
- && sed -i.bak -e 's/home\/${USER}:/home\/${USER:\/bin\/bash/' /etc/passwd
+ && sed -i.bak "s#${HOME}:#${HOME}:${SHELL}#" /etc/passwd
+
+### Login & Move HOME
+USER ${USER}
+WORKDIR ${HOME}
 
